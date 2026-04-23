@@ -11,4 +11,4 @@ Estos conjuntos de datos contienen atributos sobre los productos vendidos en Mod
 	calificaciones
 	imágenes del producto
 	identidades de usuario
-	tamaños de artículos, géneros de usuarios
+	tamaños de artículos, usuarios
