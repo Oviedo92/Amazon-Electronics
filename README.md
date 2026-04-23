@@ -5,3 +5,10 @@ Estos conjuntos de datos contienen atributos sobre los productos vendidos en Mod
 	Reseñas:	99.893	1.292.954
 	Elementos:	1.020	9.560
 	Usuarios:	44.783	1.157.633
+
+
+	Metadatos
+	calificaciones
+	imágenes del producto
+	identidades de usuario
+	tamaños de artículos, géneros de usuarios
