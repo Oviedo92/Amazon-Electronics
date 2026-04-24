@@ -15,44 +15,54 @@ Estos conjuntos de datos contienen atributos sobre los productos vendidos en Mod
 
 
 # 1. Clonar repo
-git clone <https://github.com/Oviedo92/Amazon-Electronics>
-cd <Amazon-Electronics>
+ git clone <https://github.com/Oviedo92/Amazon-Electronics>
+ cd Amazon-Electronics
 
 # 2. Crear entorno
-python3 -m venv venv
-source venv/bin/activate
+ python3 -m venv venv
+ source venv/bin/activate
 
 # 3. Instalar dependencias
-pip install -r requirements.txt
+ pip install -r requirements.txt
 
 # 4. Ejecutar análisis exploratorio
-jupyter lab
+ jupyter lab
 
 # 5. Ejecutar pipeline ETL
-python src/etl_pipeline.py
+ python src/etl_pipeline.py
 
+## ⚠️ NOTA IMPORTANTE
 
-*SUGERENCIAS*
-Registrar el entorno (CRÍTICO)
+*Antes de ejecutar cualquier script, leer los archivos `INSTRUCCIONES.txt` ubicados en cada carpeta.*
+
+Estos contienen:
+- Configuración del entorno
+- Orden correcto de ejecución
+- Explicación del flujo ETL
+- Manejo de memoria con chunks
+
+# *SUGERENCIAS*
+ Registrar el entorno (CRÍTICO)
 Bash
-# python -m ipykernel install --user --name=venv --display-name "Python (venv)"
-Sin esto, VS Code no detecta el kernel.
+ python -m ipykernel install --user --name=venv --display-name "Python (venv)"
 
-Ejecutar JupyterLab
+NOTA: Sin esto, VS Code no detecta el kernel.
+
+# Ejecutar JupyterLab
 Bash
-# jupyter lab
+ jupyter lab
 
-O si falla:
+# O si falla:
 Bash
-# python -m jupyter lab
+ python -m jupyter lab
 
-Problemas comunes (rápido)
-❌ No aparece kernel
-python -m ipykernel install --user --name=venv
-❌ Jupyter no abre
-python -m jupyter lab
+# Problemas comunes (rápido)
+# ❌ No aparece kernel
+ python -m ipykernel install --user --name=venv
+# ❌ Jupyter no abre
+ python -m jupyter lab
 
-❌ Error leyendo JSON
+# ❌ Error leyendo JSON
 Asegúrate:
-lines=True
+ lines=True
 
