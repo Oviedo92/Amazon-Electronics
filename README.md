@@ -42,53 +42,6 @@ Estos contienen:
 
 ## 📁 Estructura del Proyecto
 
-Amazon-Electronics/
-	│
-	├── assets/
-	│   ├── arquitectura_pipeline.png
-	│   ├── medallion_diagram.png
-	│   ├── kimball_model.png
-	│   └── dashboard_powerbi.png
-	│
-	├── README.md
-	├── requirements.txt
-	├── .gitignore
-	├── informacion_datasets.txt
-	│
-	├── 1_Analisis_EDA/
-	│ ├── notebooks/
-	│ │ ├── analisis_metadata.ipynb
-	│ │ ├── analisis_reviews.ipynb
-	│ │ └── instrucciones.txt
-	│
-	├── 2_ETL/
-	│ ├── etl_metadata.py
-	│ ├── etl_reviews.py
-	│ └── instrucciones.txt
-	│
-	├── 3_ML/
-	│ ├── ml_sentiment.py
-	│ ├── INSTRUCCIONES_ML.txt
-	│ └── DESCRIPCION_ML.txt
-	│
-	├── 4_SQL/
-	│ ├── 01_bronze.sql
-	│ ├── 02_silver.sql
-	│ ├── 03_gold.sql
-	│ └── 04_kpis.sql
-	│
-	├── data/
-	│ ├── raw/ (NO incluido en el repo)
-	│ └── processed/ (NO incluido en el repo)
-	│
-	├── arquitectura_medallion.txt
-	└── modelo_kimball.txt
-	└── descripcion_power_bi.txt
-	└── granularidad_dim_y_fatc.txt
-	└── volumetria.txt
-	
-
----
 
 ## ⚙️ Tecnologías utilizadas
 
@@ -125,27 +78,6 @@ Amazon-Electronics/
 - Grafana → visualización de métricas del sistema
 
 ---
-
-Data Source (Amazon JSON)
-↓
-EDA (Jupyter)
-↓
-ETL (Python + Chunks + Parquet)
-↓
-Machine Learning (Sentimiento - NLP)
-↓
-DuckDB
-├── Bronze (datos crudos)
-├── Silver (datos limpios) (procesados)
-└── Gold (modelo estrella + KPIs)
-↓
-Docker + Prometheus + Grafana (monitoreo)
-↓
-.NET Web API (C#)
-↓
-Postman (consumo endpoints)
-↓
-Power BI (visualización)
 
 
 
