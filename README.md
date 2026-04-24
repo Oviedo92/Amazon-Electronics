@@ -44,6 +44,12 @@ Estos contienen:
 
 Amazon-Electronics/
 	│
+	├── assets/
+	│   ├── arquitectura_pipeline.png
+	│   ├── medallion_diagram.png
+	│   ├── kimball_model.png
+	│   └── dashboard_powerbi.png
+	│
 	├── README.md
 	├── requirements.txt
 	├── .gitignore
@@ -75,9 +81,11 @@ Amazon-Electronics/
 	│ ├── raw/ (NO incluido en el repo)
 	│ └── processed/ (NO incluido en el repo)
 	│
-	└── docs/
 	├── arquitectura_medallion.txt
 	└── modelo_kimball.txt
+	└── descripcion_power_bi.txt
+	└── granularidad_dim_y_fatc.txt
+	└── volumetria.txt
 	
 
 ---
