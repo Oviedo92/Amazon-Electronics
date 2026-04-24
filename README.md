@@ -110,22 +110,19 @@ Power BI / API
 ## 🔄 Flujo del Proyecto
 
 # 1. Clonar repo
- git clone <https://github.com/Oviedo92/Amazon-Electronics>
- cd Amazon-Electronics
+ 	git clone <https://github.com/Oviedo92/Amazon-Electronics>
+ 	cd Amazon-Electronics
 
  # 2. Crear entorno
  python3 -m venv venv
  source venv/bin/activate
 
 Activar:
-
 Windows
-
-venv\Scripts\activate
+	venv\Scripts\activate
 
 Linux / Mac
-
-source venv/bin/activate
+	source venv/bin/activate
 
 # 3. Instalar dependencias
  	pip install -r requirements.txt
