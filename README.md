@@ -42,7 +42,6 @@ Estos contienen:
 - Manejo de memoria con chunks
 
 # Estructura proyecto
-
 Amazon-Electronics/
 │
 ├── README.md
@@ -73,8 +72,8 @@ Amazon-Electronics/
 │   ├── 04_kpis.sql
 │
 ├── data/
-│   ├── raw/          (NO se sube) # JSON originales
-│   ├── processed/    (NO se sube) # archivos .Parquet limpios (procesados)
+│   ├── raw/          (NO se sube)
+│   ├── processed/    (NO se sube)
 │
 └── docs/
     ├── arquitectura_medallion.txt
@@ -83,27 +82,27 @@ Amazon-Electronics/
 	
 
 # *SUGERENCIAS*
- Registrar el entorno (CRÍTICO)
-Bash
+ 
+# Registrar el entorno (CRÍTICO) (Bash)
+
  python -m ipykernel install --user --name=venv --display-name "Python (venv)"
 
-NOTA: Sin esto, VS Code no detecta el kernel.
+# NOTA: Sin esto, VS Code no detecta el kernel.
 
-# Ejecutar JupyterLab
-Bash
- jupyter lab
+# Ejecutar JupyterLab (Bash)
 
-# O si falla:
-Bash
+ 	jupyter lab
+
+# O si falla (Bash) :
  python -m jupyter lab
 
 # Problemas comunes (rápido)
-# ❌ No aparece kernel
+# ❌ No aparece kernel (Bash)
  python -m ipykernel install --user --name=venv
-# ❌ Jupyter no abre
+# ❌ Jupyter no abre (Bash)
  python -m jupyter lab
 
-# ❌ Error leyendo JSON
+# ❌ Error leyendo JSON 
 Asegúrate:
  lines=True
 
