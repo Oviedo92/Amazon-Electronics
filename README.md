@@ -84,27 +84,61 @@ Amazon-Electronics/
 
 ## ⚙️ Tecnologías utilizadas
 
-- Python (Polars, Pandas) (chunks)
-- DuckDB (SQL)
-- DBeaver (SQL)
-- JupyterLab
-- VADER Sentiment (NLP)
-- .Parquet (formato columnar)
+### 🔹 Lenguajes y Procesamiento
+- Python (Polars, Pandas) → ETL optimizado con procesamiento por chunks
+- SQL (DuckDB) → consultas analíticas y modelado
+
+### 🔹 Almacenamiento y Formato
+- Parquet → formato columnar eficiente para grandes volúmenes de datos
+- JSON → datos crudos (fuente original)
+
+### 🔹 Análisis y Exploración
+- JupyterLab → análisis exploratorio de datos (EDA)
+
+### 🔹 Machine Learning
+- VADER Sentiment → análisis de sentimiento (NLP basado en reglas)
+
+### 🔹 Base de Datos y Herramientas
+- DuckDB → motor analítico columnar
+- DBeaver → cliente SQL para gestión y ejecución de consultas
+
+### 🔹 Backend / API
+- .NET Web API (C#) → exposición de datos y KPIs mediante endpoints REST
+
+### 🔹 Consumo de API
+- Postman → pruebas y consumo de endpoints (más eficiente que Swagger en uso de memoria)
+
+### 🔹 Visualización
+- Power BI → dashboards y análisis visual de KPIs
+
+### 🔹 DevOps / Observabilidad
+- Docker → contenedorización del entorno
+- Prometheus → recolección de métricas
+- Grafana → visualización de métricas del sistema
 
 ---
 
+Data Source (Amazon JSON)
+↓
 EDA (Jupyter)
-	↓
+↓
 ETL (Python + Chunks + Parquet)
-	↓
-Machine Learning (Sentimiento)
-	↓
+↓
+Machine Learning (Sentimiento - NLP)
+↓
 DuckDB
-	├── Bronze (datos crudos)
-	├── Silver (datos limpios)
-	└── Gold (modelo estrella + KPIs)
-	↓
-Power BI / API
+├── Bronze (datos crudos)
+├── Silver (datos limpios) (procesados)
+└── Gold (modelo estrella + KPIs)
+↓
+Docker + Prometheus + Grafana (monitoreo)
+↓
+.NET Web API (C#)
+↓
+Postman (consumo endpoints)
+↓
+Power BI (visualización)
+
 
 
 ## 🔄 Flujo del Proyecto
@@ -114,12 +148,11 @@ Power BI / API
  	cd Amazon-Electronics
 
 ## 2. Crear entorno
- python3 -m venv venv
- source venv/bin/activate
+	python3 -m venv venv
+	source venv/bin/activate
 
 ## 3. Instalar dependencias
  	pip install -r requirements.txt
-
 
 # 4. Ejecutar EDA
 	jupyter lab
@@ -140,8 +173,7 @@ Power BI / API
 	✔ Genera análisis de sentimiento en parquet
 
 # 7. Ejecutar SQL (DuckDB)
-
-# Ejecutar en orden:
+## Ejecutar en orden:
 	4_SQL/01_bronze.sql
 	4_SQL/02_silver.sql
 	4_SQL/03_gold.sql
@@ -155,7 +187,6 @@ Power BI / API
 
 ## 🔹 Modelo Kimball (Gold)
 	Dimensiones: Producto, Tiempo, Sentimiento,Usuario
-
 	Tabla de hechos: Fact_Resenas
 	
 # ⚠️ Nota importante
@@ -179,7 +210,7 @@ Power BI / API
 	python -m ipykernel install --user --name=venv --display-name "Python (venv)"
 	NOTA: Sin esto, VS Code no detecta el kernel.
 
-# Ejecutar JupyterLab (Bash)
+## Ejecutar JupyterLab (Bash)
 	jupyter lab
 
 ## O si falla (Bash) :
