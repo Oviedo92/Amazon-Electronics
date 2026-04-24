@@ -43,41 +43,41 @@ Estos contienen:
 ## 📁 Estructura del Proyecto
 
 Amazon-Electronics/
-│
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── informacion_datasets.txt
-│
-├── 1_Analisis_EDA/
-│ ├── notebooks/
-│ │ ├── analisis_metadata.ipynb
-│ │ ├── analisis_reviews.ipynb
-│ │ └── instrucciones.txt
-│
-├── 2_ETL/
-│ ├── etl_metadata.py
-│ ├── etl_reviews.py
-│ └── instrucciones.txt
-│
-├── 3_ML/
-│ ├── ml_sentiment.py
-│ ├── INSTRUCCIONES_ML.txt
-│ └── DESCRIPCION_ML.txt
-│
-├── 4_SQL/
-│ ├── 01_bronze.sql
-│ ├── 02_silver.sql
-│ ├── 03_gold.sql
-│ └── 04_kpis.sql
-│
-├── data/
-│ ├── raw/ (NO incluido en el repo)
-│ └── processed/ (NO incluido en el repo)
-│
-└── docs/
-├── arquitectura_medallion.txt
-└── modelo_kimball.txt
+	│
+	├── README.md
+	├── requirements.txt
+	├── .gitignore
+	├── informacion_datasets.txt
+	│
+	├── 1_Analisis_EDA/
+	│ ├── notebooks/
+	│ │ ├── analisis_metadata.ipynb
+	│ │ ├── analisis_reviews.ipynb
+	│ │ └── instrucciones.txt
+	│
+	├── 2_ETL/
+	│ ├── etl_metadata.py
+	│ ├── etl_reviews.py
+	│ └── instrucciones.txt
+	│
+	├── 3_ML/
+	│ ├── ml_sentiment.py
+	│ ├── INSTRUCCIONES_ML.txt
+	│ └── DESCRIPCION_ML.txt
+	│
+	├── 4_SQL/
+	│ ├── 01_bronze.sql
+	│ ├── 02_silver.sql
+	│ ├── 03_gold.sql
+	│ └── 04_kpis.sql
+	│
+	├── data/
+	│ ├── raw/ (NO incluido en el repo)
+	│ └── processed/ (NO incluido en el repo)
+	│
+	└── docs/
+	├── arquitectura_medallion.txt
+	└── modelo_kimball.txt
 	
 
 ---
@@ -94,15 +94,15 @@ Amazon-Electronics/
 ---
 
 EDA (Jupyter)
-↓
+	↓
 ETL (Python + Chunks + Parquet)
-↓
+	↓
 Machine Learning (Sentimiento)
-↓
+	↓
 DuckDB
-├── Bronze (datos crudos)
-├── Silver (datos limpios)
-└── Gold (modelo estrella + KPIs)
+	├── Bronze (datos crudos)
+	├── Silver (datos limpios)
+	└── Gold (modelo estrella + KPIs)
 ↓
 Power BI / API
 
@@ -113,15 +113,14 @@ Power BI / API
  	git clone <https://github.com/Oviedo92/Amazon-Electronics>
  	cd Amazon-Electronics
 
- # 2. Crear entorno
+# 2. Crear entorno
  python3 -m venv venv
  source venv/bin/activate
 
 Activar:
 Windows
 	venv\Scripts\activate
-
-Linux / Mac
+Linux
 	source venv/bin/activate
 
 # 3. Instalar dependencias
@@ -139,12 +138,12 @@ Linux / Mac
 	python 2_ETL/etl_metadata.py
 	python 2_ETL/etl_reviews.py
 
-# ✔ Genera archivos .parquet en data/processed/
+	✔ Genera archivos .parquet en data/processed/
 
 # 6. Ejecutar Machine Learning
 	python 3_ML/ml_sentiment.py
 
-# ✔ Genera análisis de sentimiento en parquet
+	✔ Genera análisis de sentimiento en parquet
 
 # 7. Ejecutar SQL (DuckDB)
 
@@ -160,14 +159,15 @@ Linux / Mac
 	Silver: Datos limpios (Parquet)
 	Gold: Modelo analítico (Dimensional + KPIs)
 
-# 🔹 Modelo Kimball (Gold)
+## 🔹 Modelo Kimball (Gold)
 Dimensiones:
-	Producto
-	Tiempo
-	Sentimiento
-	Usuario
+Producto
+Tiempo
+Sentimiento
+Usuario
+
 Tabla de hechos:
-	Fact_Resenas
+Fact_Resenas
 	
 # ⚠️ Nota importante
 	Este repositorio NO incluye datasets debido a su tamaño (10GB+).
@@ -180,32 +180,28 @@ Tabla de hechos:
 	Pipeline completo de ingeniería de datos
 	
 # 📌 Autor
+	Oviedo Emmanuel - Ingeniería de Sistemas
 
-Oviedo Emmanuel - Ingeniería de Sistemas
 
-
-# *SUGERENCIAS*
+## *SUGERENCIAS*
  
 # Registrar el entorno (CRÍTICO) (Bash)
-
- python -m ipykernel install --user --name=venv --display-name "Python (venv)"
-
-# NOTA: Sin esto, VS Code no detecta el kernel.
+	python -m ipykernel install --user --name=venv --display-name "Python (venv)"
+	NOTA: Sin esto, VS Code no detecta el kernel.
 
 # Ejecutar JupyterLab (Bash)
-
- 	jupyter lab
+	jupyter lab
 
 # O si falla (Bash) :
- python -m jupyter lab
+	python -m jupyter lab
 
-# Problemas comunes (rápido)
+## Problemas comunes (rápido)
 # ❌ No aparece kernel (Bash)
- python -m ipykernel install --user --name=venv
+	python -m ipykernel install --user --name=venv
 # ❌ Jupyter no abre (Bash)
- python -m jupyter lab
+	python -m jupyter lab
 
 # ❌ Error leyendo JSON 
-Asegúrate:
- lines=True
+	Asegúrate:
+	lines=True
 
