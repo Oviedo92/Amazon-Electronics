@@ -42,7 +42,7 @@ Estos contienen:
 - Manejo de memoria con chunks
 
 # Estructura proyecto
-Amazon-Electronics/
+	Amazon-Electronics/
 │
 ├── README.md
 ├── requirements.txt
