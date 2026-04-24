@@ -41,8 +41,23 @@ Estos contienen:
 - Explicación del flujo ETL
 - Manejo de memoria con chunks
 
-# Estructura proyecto
-	Amazon-Electronics/
+# 📊 Amazon Electronics Data Engineering Project
+
+Proyecto de Ingeniería de Datos basado en el dataset público de Amazon Electronics. https://cseweb.ucsd.edu/~jmcauley/datasets/amazon_v2/
+
+Incluye:
+- Análisis Exploratorio (EDA)
+- ETL optimizado con procesamiento por chunks
+- Machine Learning (Análisis de Sentimiento)
+- Arquitectura Medallion (Bronze, Silver, Gold)
+- Modelo Dimensional (Kimball)
+- KPIs listos para visualización
+
+---
+
+## 📁 Estructura del Proyecto
+
+Amazon-Electronics/
 │
 ├── README.md
 ├── requirements.txt
@@ -50,35 +65,34 @@ Estos contienen:
 ├── informacion_datasets.txt
 │
 ├── 1_Analisis_EDA/
-│   ├── notebooks/
-│   │   ├── analisis_metadata.ipynb
-│   │   ├── analisis_reviews.ipynb
-│   │   └── instrucciones.txt
+│ ├── notebooks/
+│ │ ├── analisis_metadata.ipynb
+│ │ ├── analisis_reviews.ipynb
+│ │ └── instrucciones.txt
 │
 ├── 2_ETL/
-│   ├── etl_metadata.py
-│   ├── etl_reviews.py
-│   ├── instrucciones.txt
+│ ├── etl_metadata.py
+│ ├── etl_reviews.py
+│ └── instrucciones.txt
 │
 ├── 3_ML/
-│   ├── ml_sentiment.py
-│   ├── INSTRUCCIONES_ML.txt
-│   ├── DESCRIPCION_ML.txt
+│ ├── ml_sentiment.py
+│ ├── INSTRUCCIONES_ML.txt
+│ └── DESCRIPCION_ML.txt
 │
 ├── 4_SQL/
-│   ├── 01_bronze.sql
-│   ├── 02_silver.sql
-│   ├── 03_gold.sql
-│   ├── 04_kpis.sql
+│ ├── 01_bronze.sql
+│ ├── 02_silver.sql
+│ ├── 03_gold.sql
+│ └── 04_kpis.sql
 │
 ├── data/
-│   ├── raw/          (NO se sube)
-│   ├── processed/    (NO se sube)
+│ ├── raw/ (NO incluido en el repo)
+│ └── processed/ (NO incluido en el repo)
 │
 └── docs/
-    ├── arquitectura_medallion.txt
-    ├── modelo_kimball.txt
-
+├── arquitectura_medallion.txt
+└── modelo_kimball.txt
 	
 
 # *SUGERENCIAS*
