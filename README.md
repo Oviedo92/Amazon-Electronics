@@ -14,33 +14,6 @@ Estos conjuntos de datos contienen atributos sobre los productos vendidos en Mod
 	tamaños de artículos, usuarios
 
 
-# 1. Clonar repo
- git clone <https://github.com/Oviedo92/Amazon-Electronics>
- cd Amazon-Electronics
-
-# 2. Crear entorno
- python3 -m venv venv
- source venv/bin/activate
-
-# 3. Instalar dependencias
- pip install -r requirements.txt
-
-# 4. Ejecutar análisis exploratorio
- jupyter lab
-
-# 5. Ejecutar pipeline ETL
- python src/etl_pipeline.py
-
-## ⚠️ NOTA IMPORTANTE
-
-*Antes de ejecutar cualquier script, leer los archivos `INSTRUCCIONES.txt` ubicados en cada carpeta.*
-
-Estos contienen:
-- Configuración del entorno
-- Orden correcto de ejecución
-- Explicación del flujo ETL
-- Manejo de memoria con chunks
-
 # 📊 Amazon Electronics Data Engineering Project
 
 Proyecto de Ingeniería de Datos basado en el dataset público de Amazon Electronics. https://cseweb.ucsd.edu/~jmcauley/datasets/amazon_v2/
@@ -54,6 +27,18 @@ Incluye:
 - KPIs listos para visualización
 
 ---
+
+
+## ⚠️ NOTA IMPORTANTE
+
+*Antes de ejecutar cualquier script, leer los archivos `INSTRUCCIONES.txt` ubicados en cada carpeta.*
+
+Estos contienen:
+- Configuración del entorno
+- Orden correcto de ejecución
+- Explicación del flujo ETL
+- Manejo de memoria con chunks
+
 
 ## 📁 Estructura del Proyecto
 
@@ -94,6 +79,113 @@ Amazon-Electronics/
 ├── arquitectura_medallion.txt
 └── modelo_kimball.txt
 	
+
+---
+
+## ⚙️ Tecnologías utilizadas
+
+- Python (Polars, Pandas) (chunks)
+- DuckDB (SQL)
+- DBeaver (SQL)
+- JupyterLab
+- VADER Sentiment (NLP)
+- .Parquet (formato columnar)
+
+---
+
+EDA (Jupyter)
+↓
+ETL (Python + Chunks + Parquet)
+↓
+Machine Learning (Sentimiento)
+↓
+DuckDB
+├── Bronze (datos crudos)
+├── Silver (datos limpios)
+└── Gold (modelo estrella + KPIs)
+↓
+Power BI / API
+
+
+## 🔄 Flujo del Proyecto
+
+# 1. Clonar repo
+ git clone <https://github.com/Oviedo92/Amazon-Electronics>
+ cd Amazon-Electronics
+
+ # 2. Crear entorno
+ python3 -m venv venv
+ source venv/bin/activate
+
+Activar:
+
+Windows
+
+venv\Scripts\activate
+
+Linux / Mac
+
+source venv/bin/activate
+
+# 3. Instalar dependencias
+ 	pip install -r requirements.txt
+
+
+# 4. Ejecutar EDA
+	jupyter lab
+
+# Abrir:
+	analisis_metadata.ipynb
+	analisis_reviews.ipynb
+
+# 5. Ejecutar ETL
+	python 2_ETL/etl_metadata.py
+	python 2_ETL/etl_reviews.py
+
+# ✔ Genera archivos .parquet en data/processed/
+
+# 6. Ejecutar Machine Learning
+	python 3_ML/ml_sentiment.py
+
+# ✔ Genera análisis de sentimiento en parquet
+
+# 7. Ejecutar SQL (DuckDB)
+
+# Ejecutar en orden:
+	4_SQL/01_bronze.sql
+	4_SQL/02_silver.sql
+	4_SQL/03_gold.sql
+	4_SQL/04_kpis.sql (Views)
+
+# 🧠 Arquitectura
+## 🔹 Medallion Architecture
+	Bronze: Datos crudos (JSON)
+	Silver: Datos limpios (Parquet)
+	Gold: Modelo analítico (Dimensional + KPIs)
+
+# 🔹 Modelo Kimball (Gold)
+Dimensiones:
+	Producto
+	Tiempo
+	Sentimiento
+	Usuario
+Tabla de hechos:
+	Fact_Resenas
+	
+# ⚠️ Nota importante
+	Este repositorio NO incluye datasets debido a su tamaño (10GB+).
+	Debes descargarlos manualmente y ubicarlos en:	data/raw/
+
+# 🎯 Resultados
+	Dataset limpio optimizado en Parquet
+	Modelo estrella listo para análisis
+	KPIs para visualización en Power BI
+	Pipeline completo de ingeniería de datos
+	
+# 📌 Autor
+
+Oviedo Emmanuel - Ingeniería de Sistemas
+
 
 # *SUGERENCIAS*
  
