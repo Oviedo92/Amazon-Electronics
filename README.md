@@ -103,34 +103,28 @@ DuckDB
 	├── Bronze (datos crudos)
 	├── Silver (datos limpios)
 	└── Gold (modelo estrella + KPIs)
-↓
+	↓
 Power BI / API
 
 
 ## 🔄 Flujo del Proyecto
 
-# 1. Clonar repo
+## 1. Clonar repo
  	git clone <https://github.com/Oviedo92/Amazon-Electronics>
  	cd Amazon-Electronics
 
-# 2. Crear entorno
+## 2. Crear entorno
  python3 -m venv venv
  source venv/bin/activate
 
-Activar:
-Windows
-	venv\Scripts\activate
-Linux
-	source venv/bin/activate
-
-# 3. Instalar dependencias
+## 3. Instalar dependencias
  	pip install -r requirements.txt
 
 
 # 4. Ejecutar EDA
 	jupyter lab
 
-# Abrir:
+## Abrir:
 	analisis_metadata.ipynb
 	analisis_reviews.ipynb
 
@@ -160,18 +154,14 @@ Linux
 	Gold: Modelo analítico (Dimensional + KPIs)
 
 ## 🔹 Modelo Kimball (Gold)
-Dimensiones:
-Producto
-Tiempo
-Sentimiento
-Usuario
+	Dimensiones: Producto, Tiempo, Sentimiento,Usuario
 
-Tabla de hechos:
-Fact_Resenas
+	Tabla de hechos: Fact_Resenas
 	
 # ⚠️ Nota importante
 	Este repositorio NO incluye datasets debido a su tamaño (10GB+).
-	Debes descargarlos manualmente y ubicarlos en:	data/raw/
+	Debes descargarlos manualmente y ubicarlos en:	
+	data/raw/
 
 # 🎯 Resultados
 	Dataset limpio optimizado en Parquet
@@ -185,23 +175,23 @@ Fact_Resenas
 
 ## *SUGERENCIAS*
  
-# Registrar el entorno (CRÍTICO) (Bash)
+## Registrar el entorno (CRÍTICO) (Bash)
 	python -m ipykernel install --user --name=venv --display-name "Python (venv)"
 	NOTA: Sin esto, VS Code no detecta el kernel.
 
 # Ejecutar JupyterLab (Bash)
 	jupyter lab
 
-# O si falla (Bash) :
+## O si falla (Bash) :
 	python -m jupyter lab
 
 ## Problemas comunes (rápido)
-# ❌ No aparece kernel (Bash)
+## ❌ No aparece kernel (Bash)
 	python -m ipykernel install --user --name=venv
-# ❌ Jupyter no abre (Bash)
+## ❌ Jupyter no abre (Bash)
 	python -m jupyter lab
 
-# ❌ Error leyendo JSON 
+## ❌ Error leyendo JSON 
 	Asegúrate:
 	lines=True
 
