@@ -1,0 +1,198 @@
+============================================================
+📊 INSTRUCCIONES - ANÁLISIS EXPLORATORIO (EDA)
+============================================================
+
+OBJETIVO:
+Explorar los datasets (Electronics.json y meta_Electronics.json)
+para definir reglas de limpieza que luego serán aplicadas
+en los scripts ETL.
+
+IMPORTANTE:
+✔ SOLO analizar
+✔ NO modificar datasets
+✔ NO guardar archivos finales
+✔ NO usar chunks
+✔ NO hacer procesamiento masivo
+
+El ETL real se ejecuta en:
+src/etl_metadata.py
+src/etl_reviews.py
+
+============================================================
+⚙️ PASO 1: CONFIGURAR ENTORNO
+============================================================
+
+1. Crear entorno virtual:
+
+   python -m venv venv
+
+2. Activar entorno:
+
+   Linux / Mac:
+   source venv/bin/activate
+
+3. Instalar dependencias:
+
+   pip install -r requirements.txt
+
+4. Ejecutar JupyterLab:
+
+   jupyter lab
+
+============================================================
+📂 PASO 2: ABRIR NOTEBOOKS
+============================================================
+
+Abrir los siguientes archivos:
+
+- notebooks/analisis_metadata.ipynb
+- notebooks/analisis_reviews.ipynb
+
+============================================================
+🧠 ESTRUCTURA DE LOS NOTEBOOKS (OBLIGATORIA)
+============================================================
+
+Cada notebook debe ejecutarse por bloques con sus prints signfiicativos y descripcion en el siguiente orden:
+
+------------------------------------------------------------
+🔹 BLOQUE 0: IMPORTACIÓN DE LIBRERÍAS
+------------------------------------------------------------
+
+import pandas as pd
+import json
+
+------------------------------------------------------------
+🔹 BLOQUE 1: CARGA DE DATOS
+------------------------------------------------------------
+
+metadata = pd.read_json("../data/raw/Electronics/Electronics.json", lines=True)
+reviews = pd.read_json("../data/raw/Reviews/meta_Electronics.json", lines=True)
+
+⚠️ NOTA:
+Si el dataset es muy grande, usar solo una muestra:
+
+reviews = pd.read_json("../data/raw/Electronics/Electronics.json", lines=True, nrows=100000)
+
+------------------------------------------------------------
+🔹 BLOQUE 2: EXPLORACIÓN INICIAL
+------------------------------------------------------------
+
+# Dimensiones
+print(metadata.shape)
+print(reviews.shape)
+
+# Columnas
+print(metadata.columns)
+print(reviews.columns)
+
+# Tipos de datos
+metadata.info()
+reviews.info()
+
+# Valores nulos
+print(metadata.isnull().sum())
+print(reviews.isnull().sum())
+
+------------------------------------------------------------
+🔹 BLOQUE 3: EVALUACIÓN DE CALIDAD
+------------------------------------------------------------
+
+# Detectar columnas irrelevantes
+print(metadata.columns)
+print(reviews.columns)
+
+# Ejemplo: revisar duplicados
+print(metadata.duplicated().sum())
+print(reviews.duplicated().sum())
+
+# Revisar columnas específicas
+print(reviews['reviewTime'].head())
+print(reviews['overall'].describe())
+
+------------------------------------------------------------
+🔹 BLOQUE 4: ANÁLISIS DE PROBLEMAS
+------------------------------------------------------------
+
+# Valores únicos (ejemplo)
+print(metadata['brand'].nunique())
+print(reviews['overall'].unique())
+
+# Revisar fechas
+print(reviews['reviewTime'].head(10))
+
+# Revisar textos largos
+print(reviews['reviewText'].head(2))
+
+------------------------------------------------------------
+🔹 BLOQUE 5: DEFINICIÓN DE REGLAS (NO CÓDIGO, SOLO COMENTARIOS)
+------------------------------------------------------------
+
+En este bloque SOLO escribir comentarios con decisiones:
+
+Ejemplo:
+
+# Columnas a eliminar:
+# - que no sirvan para ti
+
+# Columnas a mantener:
+# - asin
+# - reviewerID
+# - overall
+# - reviewTime
+# - vote
+# - verified
+
+# Reglas:
+# - Convertir fechas a formato YYYY-MM-DD
+# - Eliminar filas con asin nulo
+# - Reemplazar nulos en vote con 0
+
+⚠️ ESTE BLOQUE ES CLAVE
+Aquí defines lo que luego se implementa en ETL.
+
+------------------------------------------------------------
+🚫 RESTRICCIONES IMPORTANTES
+------------------------------------------------------------
+
+NO HACER EN NOTEBOOKS:
+
+- No guardar archivos CSV o Parquet
+- No procesar todo el dataset completo (usar muestras)
+- No usar chunks
+- No aplicar machine learning
+- No modificar datos originales
+
+------------------------------------------------------------
+📌 RESULTADO FINAL DEL EDA
+------------------------------------------------------------
+
+Al terminar el notebook debes tener:
+
+✔ Lista de columnas a usar
+✔ Lista de columnas a eliminar
+✔ Reglas de limpieza claras
+✔ Problemas identificados
+
+------------------------------------------------------------
+➡️ SIGUIENTE PASO
+------------------------------------------------------------
+
+Una vez terminado el EDA:
+
+Ejecutar:
+
+python src/etl_metadata.py
+python src/etl_reviews.py
+
+Estos scripts aplicarán las reglas definidas aquí,
+procesando los datos por chunks y generando archivos Parquet.
+
+============================================================
+🎯 RESUMEN
+============================================================
+
+EDA = pensar y definir reglas
+ETL = ejecutar y transformar datos
+
+NO MEZCLAR RESPONSABILIDADES
+============================================================

@@ -1,0 +1,105 @@
+============================================================
+📦 DATASET: meta_Electronics.json
+============================================================
+
+DESCRIPCIÓN:
+Dataset público de Amazon que contiene información de productos
+(categoría Electronics).
+
+------------------------------------------------------------
+📊 VOLUMETRÍA (APROXIMADA)
+------------------------------------------------------------
+
+- Registros: ~700,000 productos
+- Tamaño: ~300 MB – 600 MB (JSON lines)
+- Tipo: JSON (una línea por registro)
+
+------------------------------------------------------------
+📌 GRANULARIDAD
+------------------------------------------------------------
+
+Una fila = UN PRODUCTO
+
+Nivel de detalle:
+Producto individual identificado por asin
+
+------------------------------------------------------------
+📋 COLUMNAS PRINCIPALES
+------------------------------------------------------------
+
+asin                → ID único del producto
+title               → nombre del producto
+brand               → marca
+category            → categorías (lista)
+price               → precio
+description         → descripción (texto largo)
+feature             → características (lista)
+imageURL            → links de imágenes
+also_buy            → productos relacionados
+also_view           → productos vistos similares
+
+------------------------------------------------------------
+⚠️ COLUMNAS PESADAS (CUIDADO)
+------------------------------------------------------------
+
+- description
+- feature
+- imageURL
+- also_buy / also_view
+
+👉 Estas columnas:
+- consumen mucha memoria
+- pueden eliminarse o transformarse
+
+------------------------------------------------------------
+🎯 USO EN EL PROYECTO
+------------------------------------------------------------
+
+Este dataset alimenta:
+
+✔ Dim_Producto
+
+------------------------------------------------------------
+📊 SALIDA ESPERADA (POST-ETL)
+------------------------------------------------------------
+
+Tabla: silver.producto
+
+Columnas recomendadas:
+
+asin
+title
+brand
+category
+price
+
+------------------------------------------------------------
+🧠 REGLAS DE LIMPIEZA
+------------------------------------------------------------
+
+- Eliminar registros sin asin
+- Limpiar strings (title, brand)
+- Convertir category a formato simple (string)
+- Manejar nulos en price
+
+------------------------------------------------------------
+📐 MODELO MULTIDIMENSIONAL
+------------------------------------------------------------
+
+Dimensión: Producto
+
+- PK: asin (o surrogate key)
+- Atributos cualitativos:
+    title, brand, category
+- Atributos cuantitativos:
+    price
+
+------------------------------------------------------------
+📌 NOTA
+------------------------------------------------------------
+
+Este dataset NO tiene métricas de negocio
+→ solo describe productos
+
+Se usa como dimensión en el modelo estrella
+============================================================

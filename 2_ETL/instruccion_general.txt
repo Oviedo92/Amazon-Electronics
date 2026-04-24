@@ -1,0 +1,147 @@
+IMPORTANTE: LEER ANTES DE EJECUTAR
+
+1. Ejecutar notebooks en /notebooks:
+   - analisis_metadata.ipynb
+   - analisis_reviews.ipynb
+
+2. Objetivo del notebook:
+   - Analizar datos
+   - Definir reglas de limpieza
+
+3. NO HACER en notebooks:
+   - No guardar archivos finales
+   - No procesar grandes volúmenes
+   - No usar chunks
+
+4. Luego ejecutar ETL:
+
+   python src/etl_metadata.py
+   python src/etl_reviews.py
+
+5. ETL hace:
+   - Limpieza real
+   - Procesamiento por chunks (500k)
+   - Exportación a Parquet
+
+6. Salida final:
+   data/processed/reviews/reviews_chunk_0.parquet
+   data/processed/metadata/metadata_limpio.parquet
+
+
+
+============================================================
+⚙️ INSTRUCCIONES GENERALES ETL
+============================================================
+
+OBJETIVO:
+Procesar datasets JSON grandes de Amazon Electronics
+para generar archivos limpios en formato Parquet.
+
+------------------------------------------------------------
+📂 DATASETS (CORRECTOS)
+------------------------------------------------------------
+
+1. REVIEWS (reseñas - dataset principal):
+   ../data/raw/Electronics/Electronics.json
+
+2. METADATA (productos):
+   ../data/raw/Metadata/meta_Electronics.json
+
+------------------------------------------------------------
+📊 ESTRATEGIA DE PROCESAMIENTO
+------------------------------------------------------------
+
+🔥 IMPORTANTE:
+
+Ambos datasets son grandes (~10GB)
+
+✔ REVIEWS:
+   - OBLIGATORIO usar chunks
+   - Dataset más crítico (20M+ registros)
+
+✔ METADATA:
+   - RECOMENDADO usar chunks
+   - Aunque tenga menos registros, el tamaño es alto
+
+------------------------------------------------------------
+📦 CHUNKS (MANEJO DE MEMORIA)
+------------------------------------------------------------
+
+Tamaño recomendado:
+
+✔ 500,000 filas → óptimo (recomendado)
+✔ 100,000 filas → más seguro (PC limitada)
+
+REGLA:
+
+- Si el PC es bueno → usar 500k
+- Si se congela → bajar a 100k
+
+------------------------------------------------------------
+📁 SALIDAS (CORREGIDAS)
+------------------------------------------------------------
+
+REVIEWS (por chunks):
+
+../data/processed/reviews/reviews_chunk_0.parquet
+../data/processed/reviews/reviews_chunk_1.parquet
+../data/processed/reviews/reviews_chunk_2.parquet
+...
+
+METADATA:
+
+../data/processed/metadata/metadata_limpio.parquet
+
+(Opcional: también por chunks si se requiere)
+
+------------------------------------------------------------
+📌 FORMATO
+------------------------------------------------------------
+
+✔ Parquet (OBLIGATORIO)
+
+Motivo:
+- menor tamaño
+- lectura más rápida
+- integración directa con DuckDB
+
+------------------------------------------------------------
+🚫 NO HACER
+------------------------------------------------------------
+
+- No convertir a CSV
+- No cargar JSON completo en memoria
+- No usar notebooks para ETL
+- No mezclar EDA con ETL
+
+------------------------------------------------------------
+🔄 FLUJO CORRECTO
+------------------------------------------------------------
+
+1. Ejecutar notebooks (EDA)
+   - analisis_metadata.ipynb
+   - analisis_reviews.ipynb
+
+2. Ejecutar ETL metadata
+   python src/etl_metadata.py
+
+3. Ejecutar ETL reviews (chunks)
+   python src/etl_reviews.py
+
+4. Generar archivos Parquet limpios
+
+5. Cargar en DuckDB (capa Silver)
+
+6. Construir modelo dimensional (Gold)
+
+------------------------------------------------------------
+🎯 RESULTADO FINAL
+------------------------------------------------------------
+
+✔ Datos limpios
+✔ Listos para análisis
+✔ Listos para Power BI
+✔ Base para modelo estrella
+✔ Base para Machine Learning
+
+============================================================

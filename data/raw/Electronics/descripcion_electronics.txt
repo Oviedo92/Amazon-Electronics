@@ -1,0 +1,160 @@
+============================================================
+📦 DATASET: Electronics.json
+============================================================
+
+DESCRIPCIÓN:
+Dataset de reseñas de usuarios sobre productos Amazon Electronics.
+
+------------------------------------------------------------
+📊 VOLUMETRÍA (APROXIMADA)
+------------------------------------------------------------
+
+- Registros: ~20,000,000 (20M+)
+- Tamaño: ~5 GB – 8 GB
+- Tipo: JSON lines
+
+------------------------------------------------------------
+📌 GRANULARIDAD
+------------------------------------------------------------
+
+Una fila = UNA RESEÑA
+
+Nivel de detalle:
+Usuario + Producto + Fecha
+
+------------------------------------------------------------
+📋 COLUMNAS PRINCIPALES
+------------------------------------------------------------
+
+asin            → ID producto
+reviewerID      → ID usuario
+reviewText      → texto completo
+summary         → resumen
+overall         → rating (1–5)
+reviewTime      → fecha
+vote            → votos de utilidad
+verified        → compra verificada
+
+------------------------------------------------------------
+⚠️ COLUMNAS PESADAS
+------------------------------------------------------------
+
+- reviewText
+- summary
+
+👉 Muy grandes → usar solo si hay ML
+
+------------------------------------------------------------
+🎯 USO EN EL PROYECTO
+------------------------------------------------------------
+
+Este dataset alimenta:
+
+✔ Fact_Resenas
+✔ Dim_Usuario
+✔ Dim_Tiempo
+✔ Dim_Sentimiento (si ML)
+
+------------------------------------------------------------
+📊 SALIDA ESPERADA (POST-ETL)
+------------------------------------------------------------
+
+Tabla: silver.resena
+
+Columnas recomendadas:
+
+asin
+reviewerID
+overall
+reviewTime
+vote
+verified
+
+------------------------------------------------------------
+🧠 TRANSFORMACIONES CLAVE
+------------------------------------------------------------
+
+- Convertir reviewTime → fecha estándar
+- Generar DateKey (YYYYMMDD)
+- Limpiar nulos
+- Convertir vote a numérico
+- Eliminar registros sin asin o rating
+
+------------------------------------------------------------
+🤖 MACHINE LEARNING (OPCIONAL)
+------------------------------------------------------------
+
+Se puede generar:
+
+Score_Polaridad
+Categoria_Texto
+Alerta_Incongruencia
+
+------------------------------------------------------------
+📐 MODELO MULTIDIMENSIONAL
+------------------------------------------------------------
+
+Tabla de hechos: Fact_Resenas
+
+Granularidad:
+
+1 fila = 1 reseña
+
+------------------------------------------------------------
+🔑 CLAVES
+------------------------------------------------------------
+
+FK:
+
+asin            → Dim_Producto
+reviewerID      → Dim_Usuario
+DateKey         → Dim_Tiempo
+SentimentKey    → Dim_Sentimiento
+
+------------------------------------------------------------
+📊 MÉTRICAS (CUANTITATIVAS)
+------------------------------------------------------------
+
+overall (rating)
+vote
+Score_Polaridad
+
+------------------------------------------------------------
+📋 ATRIBUTOS (CUALITATIVOS)
+------------------------------------------------------------
+
+verified
+Categoria_Texto
+
+------------------------------------------------------------
+🧠 LECTURA DEL MODELO
+------------------------------------------------------------
+
+El modelo permite analizar:
+
+- Calificaciones por producto
+- Comportamiento del usuario
+- Evolución en el tiempo
+- Relación entre rating y sentimiento
+
+------------------------------------------------------------
+⚙️ REGLA CRÍTICA
+------------------------------------------------------------
+
+Este dataset DEBE procesarse con chunks
+
+Ejemplo:
+
+500,000 filas por lote
+
+Motivo:
+- evitar consumo excesivo de RAM
+- estabilidad del sistema
+
+------------------------------------------------------------
+📌 NOTA FINAL
+------------------------------------------------------------
+
+Este dataset es la base del análisis
+→ define la tabla de hechos del modelo estrella
+============================================================

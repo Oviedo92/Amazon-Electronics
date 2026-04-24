@@ -1,0 +1,159 @@
+📦 📊 DATASETS AMAZON ELECTRONICS (DOCUMENTACIÓN OFICIAL)
+
+🔷 1. Dataset: reviews (Electronics)
+
+📊 Volumetría real
+    Registros: 20,994,353 reseñas
+    Tipo: JSON (JSON Lines)
+    Tamaño estimado: ~5 GB – 8 GB
+
+📌 Granularidad
+    Una fila = una reseña individual
+
+Nivel de detalle:
+
+Producto (asin) + Usuario (reviewerID) + Fecha (reviewTime)
+📋 ¿Qué contiene cada registro?
+
+Cada fila incluye:
+
+Identificación del producto
+Identificación del usuario
+Calificación (rating)
+Texto de la reseña
+Fecha
+Interacción (votos)
+Verificación de compra
+
+📊 Columnas típicas
+asin
+reviewerID
+reviewText
+summary
+overall
+reviewTime
+vote
+verified
+
+🎯 Qué representa en el modelo
+
+✔ Tabla de hechos (Fact_Resenas)
+✔ Base para KPIs
+✔ Fuente para Machine Learning
+--------------------------------------------------------
+
+🔷 2. Dataset: metadata (Electronics)
+
+📊 Volumetría real
+    Registros: 786,868 productos
+    Tipo: JSON (JSON Lines)
+    Tamaño estimado: ~300 MB – 600 MB
+
+📌 Granularidad
+    Una fila = un producto
+
+Nivel de detalle:
+
+Producto único identificado por asin
+📋 ¿Qué contiene cada registro?
+
+Cada fila describe un producto:
+
+Nombre
+Marca
+Categoría
+Precio
+Descripción
+Relaciones con otros productos
+
+📊 Columnas típicas
+asin
+title
+brand
+category
+price
+description
+feature
+imageURL
+also_buy
+also_view
+
+🎯 Qué representa en el modelo
+    ✔ Dimensión: Dim_Producto
+    ✔ Contexto para análisis
+
+🔷 🔥 RELACIÓN ENTRE DATASETS
+    metadata.asin  ←→  reviews.asin
+
+👉 Relación:
+
+1 producto → muchas reseñas (1:N)
+
+                🔷 📊 DIFERENCIA CLAVE
+Dataset	       |        Tipo	  |              Rol
+metadata	   |     Dimensión	  |      Describe productos
+reviews	       |	   Hechos     |       Eventos (reseñas)
+
+🔷 🧠 INTERPRETACIÓN ANALÍTICA
+
+Con ambos datasets puedes analizar:
+
+⭐ Promedio de rating por producto
+📈 Evolución en el tiempo
+🧠 Sentimiento vs rating
+🧑‍💻 Comportamiento de usuarios
+🏷️ Rendimiento por marca/categoría
+
+🔷 📐 MODELO MULTIDIMENSIONAL (RESUMEN)
+    🔹 Fact Table
+        Fact_Resenas
+
+Granularidad:
+    1 fila = 1 reseña
+
+🔹 Dimensiones
+    Dim_Producto (metadata)
+    Dim_Usuario (reviews)
+    Dim_Tiempo (derivada)
+    Dim_Sentimiento (ML)
+
+🔹 Métricas
+    overall (rating)
+    vote
+    Score_Polaridad (ML)
+
+🔹 Atributos cualitativos
+    verified
+    Categoria_Texto
+    brand
+    category
+
+🔷 ⚠️ IMPLICACIÓN TÉCNICA IMPORTANTE
+🔴 reviews (20M filas)
+
+Debe procesarse:
+
+✔ Con chunks (500k recomendado)
+✔ Con Parquet
+✔ Nunca cargar completo en RAM
+
+🟡 metadata (786k filas)
+
+✔ Puede cargarse completo
+✔ No requiere chunks estrictos
+
+🔷 🔥 DESCRIPCION CLAVE PROYECTO
+
+Incluyelo en el README:
+
+“El dataset de reseñas contiene más de 20 millones de registros, representando eventos individuales de interacción usuario-producto,
+ mientras que el dataset de metadata contiene aproximadamente 786 mil productos, funcionando como dimensión descriptiva
+ en el modelo analítico.”
+
+🔷 🧠 CONCLUSIÓN
+    ✔ volumetría clara
+    ✔ granularidad definida   
+    ✔ rol en el modelo
+    ✔ relación entre datasets
+
+👉Data Engineering y BI

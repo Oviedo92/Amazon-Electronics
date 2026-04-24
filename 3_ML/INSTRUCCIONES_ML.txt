@@ -1,0 +1,40 @@
+============================================================
+⚙️ INSTRUCCIONES MACHINE LEARNING
+============================================================
+
+1. Instalar dependencias:
+
+   pip install polars vaderSentiment
+
+------------------------------------------------------------
+2. Ejecutar script:
+
+   python src/ml_sentiment.py
+
+------------------------------------------------------------
+3. Qué hace el script:
+
+✔ Lee el dataset de reviews
+✔ Procesa en chunks
+✔ Analiza texto
+✔ Genera sentimiento
+
+------------------------------------------------------------
+4. Salida:
+
+data/processed/ml/sentiment.parquet
+
+------------------------------------------------------------
+5. IMPORTANTE:
+
+✔ No ejecutar sin RAM suficiente
+✔ Ajustar CHUNK_SIZE si es necesario
+
+------------------------------------------------------------
+6. NOTA:
+
+Este proceso es independiente del ETL,
+pero complementa el modelo analítico.
+
+============================================================
+

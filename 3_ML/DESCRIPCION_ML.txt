@@ -1,0 +1,194 @@
+============================================================
+🤖 MACHINE LEARNING - DESCRIPCIÓN GENERAL
+============================================================
+
+OBJETIVO:
+Aplicar análisis de sentimiento sobre las reseñas
+para extraer información que no existe explícitamente.
+
+------------------------------------------------------------
+📊 DATASET UTILIZADO
+------------------------------------------------------------
+
+✔ Electronics.json (reviews)
+
+NO se usa metadata porque no contiene texto relevante.
+
+------------------------------------------------------------
+🧠 TÉCNICA UTILIZADA
+------------------------------------------------------------
+
+✔ NLP (Procesamiento de Lenguaje Natural)
+✔ Análisis de Sentimiento
+
+Modelo:
+- VADER Sentiment (reglas léxicas)
+
+------------------------------------------------------------
+📥 INPUT
+------------------------------------------------------------
+
+Columnas:
+
+- reviewText
+- summary
+- overall
+- asin
+- reviewerID
+
+------------------------------------------------------------
+📤 OUTPUT
+------------------------------------------------------------
+
+- Score_Polaridad (numérico)
+- Sentimiento (Positivo / Negativo / Neutral)
+
+------------------------------------------------------------
+🎯 USO EN EL PROYECTO
+------------------------------------------------------------
+
+Se utiliza para crear:
+
+✔ Dim_Sentimiento
+✔ KPI de polaridad
+✔ Detección de inconsistencias
+
+------------------------------------------------------------
+📌 VALOR AGREGADO
+------------------------------------------------------------
+
+Permite descubrir:
+
+- Opinión real del usuario
+- Diferencias entre rating y texto
+- Insights ocultos
+
+============================================================
+
+“Se implementó un proceso de Machine Learning basado en análisis de sentimiento utilizando la librería VADER, 
+    aplicando procesamiento por chunks para evitar problemas de memoria, y generando archivos Parquet incrementales para
+    su posterior integración en el modelo analítico.”
+
+
+¿DE AQUÍ SALE SOLO UNA TABLA?
+
+👉 Sí, de ML sale SOLO UNA:
+
+silver.sentimiento
+
+Columnas:
+    asin
+    reviewerID
+    overall
+    Score_Polaridad
+    Sentimiento
+
+🔷 5. ¿CÓMO SE USA EN EL MODELO?
+
+Aquí es donde conectas todo.
+
+🔶 EN SILVER (modelo lógico)
+
+Tienes:
+
+silver.producto      ← metadata
+silver.resena        ← reviews limpio
+silver.sentimiento   ← ML (nuevo)
+silver.tiempo        ← derivado
+
+👉 SIN relaciones aún (o muy ligeras)
+
+🔷 6. ¿QUÉ PASA EN GOLD?
+
+Aquí haces modelo estrella.
+
+🔶 DIMENSIÓN
+CREATE TABLE gold.dim_sentimiento AS
+SELECT DISTINCT
+    Sentimiento,
+    AVG(Score_Polaridad) AS promedio_score
+FROM silver.sentimiento
+GROUP BY Sentimiento;
+
+🔶 FACT TABLE (IMPORTANTE)
+
+Aquí integras TODO:
+
+CREATE TABLE gold.fact_resenas AS
+SELECT
+    r.asin,
+    r.reviewerID,
+    r.rating,
+    s.Score_Polaridad,
+    s.Sentimiento
+FROM silver.resena r
+LEFT JOIN silver.sentimiento s
+    ON r.asin = s.asin 
+    AND r.reviewerID = s.reviewerID;
+
+
+🔷 7. ERROR QUE DEBES EVITAR
+
+❌ Pensar que cada chunk = tabla
+❌ Crear 40 tablas
+❌ Procesar parquet uno por uno
+
+✔ Todo se maneja como dataset unificado
+
+🔷 8. ¿SALE MÁS DE UNA TABLA DESDE ML?
+
+👉 No automáticamente.
+
+Pero puedes derivar:
+
+✔ Desde ML puedes crear:
+silver.sentimiento           ← base
+gold.dim_sentimiento         ← dimensión
+gold.kpi_sentiment           ← agregaciones
+gold.kpi_incongruencia       ← si aplicas reglas
+
+============================================================
+
+🔷 9. RESPUESTA DIRECTA A TU DUDA
+
+“¿saldría solo una tabla?”
+
+    ✔ Sí, UNA en silver
+    ✔ Luego varias en gold derivadas (KPI)
+
+🔷 10. FLUJO FINAL CORRECTO
+ML (chunks parquet)
+        ↓
+VIEW silver.sentimiento
+        ↓
+JOIN con resena
+        ↓
+gold.fact_resenas
+        ↓
+dim_sentimiento + KPIs
+
+============================================================
+
+🔷 QUÉ ESTÁS GENERANDO REALMENTE
+
+Esto crea:
+
+✔ Dimensión de Sentimiento (implícita)
+✔ Datos enriquecidos
+✔ Nueva información no presente en el dataset
+
+🔷 SIGUIENTE PASO (IMPORTANTE)
+
+Con estos archivos puedes crear en DuckDB:
+
+CREATE VIEW silver.sentimiento AS
+SELECT * FROM 'data/processed/ml/*.parquet';
+
+🔷 CONCLUSIÓN
+
+Ahora tienes:
+
+    ✔ script robusto
+    ✔ logs claros
+    ✔ listo para Big Data
+

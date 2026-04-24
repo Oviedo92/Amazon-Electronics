@@ -1,0 +1,252 @@
+============================================================
+🚀 INSTRUCCIONES PARA EJECUTAR ETL
+============================================================
+
+ANTES DE EJECUTAR:
+
+1. Activar entorno virtual
+2. Instalar dependencias:
+
+   pip install pandas pyarrow
+
+------------------------------------------------------------
+📂 ESTRUCTURA ESPERADA
+------------------------------------------------------------
+
+data/
+ ├── raw/
+ │    ├── Electronics/
+ │    │     └── Electronics.json      (REVIEWS)
+ │    └── Metadata/
+ │          └── meta_Electronics.json (METADATA)
+ │
+ └── processed/
+      ├── reviews/
+      └── metadata/
+
+------------------------------------------------------------
+⚙️ EJECUCIÓN
+------------------------------------------------------------
+
+1. Ejecutar metadata:
+
+   python src/etl_metadata.py
+
+2. Ejecutar reviews:
+
+   python src/etl_reviews.py
+
+------------------------------------------------------------
+📦 CHUNKS
+------------------------------------------------------------
+
+- reviews → 500,000 filas
+- metadata → 200,000 filas
+
+Si el PC se congela:
+
+→ bajar a 100,000
+
+------------------------------------------------------------
+📁 SALIDAS
+------------------------------------------------------------
+
+reviews:
+
+data/processed/reviews_limpio/reviews_chunk_0.parquet
+data/processed/reviews_limpio/reviews_chunk_1.parquet
+...
+
+metadata:
+
+data/processed/metadata/metadata_limpio.parquet
+
+------------------------------------------------------------
+📊 QUÉ VERÁS EN CONSOLA
+------------------------------------------------------------
+
+- Inicio del proceso
+- Número de chunk
+- Filas procesadas
+- Ruta de archivo generado
+- Tiempo total
+
+------------------------------------------------------------
+🚫 ERRORES COMUNES
+------------------------------------------------------------
+
+- ❌ No usar chunks → crash
+- ❌ No crear carpetas → error escritura
+- ❌ Leer todo el JSON → RAM insuficiente
+
+------------------------------------------------------------
+🎯 RESULTADO FINAL
+------------------------------------------------------------
+
+✔ Datos limpios en Parquet
+✔ Listos para DuckDB
+✔ Base para modelo estrella
+
+============================================================
+
+
+📄1. src/etl_reviews.py (SCRIPT COMPLETO GUÍA)
+
+import pandas as pd
+import os
+import time
+
+# ============================================================
+# CONFIGURACIÓN
+# ============================================================
+
+INPUT_PATH = "../data/raw/Electronics/Electronics.json"
+OUTPUT_DIR = "../data/processed/reviews"
+CHUNK_SIZE = 500_000  # ajustar a 100_000 si hay poca RAM
+
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+print("="*60)
+print("🚀 INICIANDO ETL REVIEWS (CHUNKS)")
+print("="*60)
+
+start_time = time.time()
+chunk_id = 0
+total_rows = 0
+
+# ============================================================
+# PROCESAMIENTO POR CHUNKS
+# ============================================================
+
+for chunk in pd.read_json(INPUT_PATH, lines=True, chunksize=CHUNK_SIZE):
+
+    print(f"\n📦 Procesando chunk {chunk_id}...")
+
+    # -------------------------
+    # LIMPIEZA BÁSICA
+    # -------------------------
+    chunk = chunk[[
+        "asin",
+        "reviewerID",
+        "overall",
+        "reviewTime",
+        "vote",
+        "verified"
+    ]]
+
+    # Eliminar nulos críticos
+    chunk = chunk.dropna(subset=["asin", "overall"])
+
+    # Convertir fecha
+    chunk["reviewTime"] = pd.to_datetime(chunk["reviewTime"], errors="coerce")
+
+    # Manejo de votos
+    chunk["vote"] = pd.to_numeric(chunk["vote"], errors="coerce").fillna(0)
+
+    # -------------------------
+    # EXPORTACIÓN
+    # -------------------------
+    output_file = f"{OUTPUT_DIR}/reviews_chunk_{chunk_id}.parquet"
+    chunk.to_parquet(output_file, index=False)
+
+    rows = len(chunk)
+    total_rows += rows
+
+    print(f"  ✅ Chunk {chunk_id} guardado")
+    print(f"  📊 Filas en chunk: {rows}")
+    print(f"  📁 Archivo: {output_file}")
+
+    chunk_id += 1
+
+# ============================================================
+# FINAL
+# ============================================================
+
+end_time = time.time()
+
+print("\n" + "="*60)
+print("🎉 ETL REVIEWS FINALIZADO")
+print(f"📦 Total chunks: {chunk_id}")
+print(f"📊 Total filas procesadas: {total_rows}")
+print(f"⏱ Tiempo total: {round(end_time - start_time, 2)} segundos")
+print("="*60)
+
+
+============================================================
+
+
+📄 2. src/etl_metadata.py (SCRIPT GUÍA)
+import pandas as pd
+import os
+import time
+
+# ============================================================
+# CONFIGURACIÓN
+# ============================================================
+
+INPUT_PATH = "../data/raw/Metadata/meta_Electronics.json"
+OUTPUT_DIR = "../data/processed/metadata"
+CHUNK_SIZE = 200_000  # menor porque metadata también pesa mucho
+
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+print("="*60)
+print("🚀 INICIANDO ETL METADATA")
+print("="*60)
+
+start_time = time.time()
+chunk_id = 0
+total_rows = 0
+
+# ============================================================
+# PROCESAMIENTO
+# ============================================================
+
+for chunk in pd.read_json(INPUT_PATH, lines=True, chunksize=CHUNK_SIZE):
+
+    print(f"\n📦 Procesando chunk {chunk_id}...")
+
+    # -------------------------
+    # SELECCIÓN DE COLUMNAS
+    # -------------------------
+    cols = ["asin", "title", "brand", "category", "price"]
+    chunk = chunk[[c for c in cols if c in chunk.columns]]
+
+    # Limpieza
+    chunk = chunk.dropna(subset=["asin"])
+
+    # -------------------------
+    # EXPORTACIÓN
+    # -------------------------
+    output_file = f"{OUTPUT_DIR}/metadata_chunk_{chunk_id}.parquet"
+    chunk.to_parquet(output_file, index=False)
+
+    rows = len(chunk)
+    total_rows += rows
+
+    print(f"  ✅ Chunk {chunk_id} guardado")
+    print(f"  📊 Filas: {rows}")
+
+    chunk_id += 1
+
+# ============================================================
+# FINAL
+# ============================================================
+
+# Opcional: unificar metadata
+print("\n🔄 Unificando metadata...")
+
+all_files = [f"{OUTPUT_DIR}/metadata_chunk_{i}.parquet" for i in range(chunk_id)]
+df = pd.concat([pd.read_parquet(f) for f in all_files])
+
+final_path = f"{OUTPUT_DIR}/metadata_limpio.parquet"
+df.to_parquet(final_path, index=False)
+
+end_time = time.time()
+
+print("\n" + "="*60)
+print("🎉 ETL METADATA FINALIZADO")
+print(f"📊 Total filas: {len(df)}")
+print(f"📁 Archivo final: {final_path}")
+print(f"⏱ Tiempo total: {round(end_time - start_time, 2)} segundos")
+print("="*60)
