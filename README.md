@@ -12,3 +12,47 @@ Estos conjuntos de datos contienen atributos sobre los productos vendidos en Mod
 	imágenes del producto
 	identidades de usuario
 	tamaños de artículos, usuarios
+
+
+# 1. Clonar repo
+git clone <https://github.com/Oviedo92/Amazon-Electronics>
+cd <Amazon-Electronics>
+
+# 2. Crear entorno
+python3 -m venv venv
+source venv/bin/activate
+
+# 3. Instalar dependencias
+pip install -r requirements.txt
+
+# 4. Ejecutar análisis exploratorio
+jupyter lab
+
+# 5. Ejecutar pipeline ETL
+python src/etl_pipeline.py
+
+
+*SUGERENCIAS*
+Registrar el entorno (CRÍTICO)
+Bash
+# python -m ipykernel install --user --name=venv --display-name "Python (venv)"
+Sin esto, VS Code no detecta el kernel.
+
+Ejecutar JupyterLab
+Bash
+# jupyter lab
+
+O si falla:
+Bash
+# python -m jupyter lab
+
+Problemas comunes (rápido)
+❌ No aparece kernel
+python -m ipykernel install --user --name=venv
+❌ Jupyter no abre
+python -m jupyter lab
+
+❌ Error leyendo JSON
+Asegúrate:
+lines=True
+
