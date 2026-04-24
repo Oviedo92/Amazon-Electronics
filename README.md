@@ -40,10 +40,16 @@ Estos contienen:
 - Manejo de memoria con chunks
 
 
+
+
 ## 📁 Estructura del Proyecto
 
 
 ## ⚙️ Tecnologías utilizadas
+
+<p align="center">
+  <img src="assets/arquitectura_pipeline.png" width="800" style="border-radius:10px;"/>
+</p>
 
 ### 🔹 Lenguajes y Procesamiento
 - Python (Polars, Pandas) → ETL optimizado con procesamiento por chunks
